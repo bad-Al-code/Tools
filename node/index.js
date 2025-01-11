@@ -1,5 +1,6 @@
 import express from "express";
 import cluster from "node:cluster";
+import os from "node:os";
 
 const app = express();
 
@@ -17,10 +18,13 @@ app.get("/wait", (req, res) => {
   res.send(`Okay: ${process.pid}`);
 });
 
+console.log(`CPU Numbers: ${os.cpus().length}`);
 if (cluster.isPrimary) {
   console.log("Master is running...");
-  cluster.fork();
-  cluster.fork();
+  const NUMBER_OF_CPUS = os.cpus().length;
+  for (let cpu = 0; cpu < NUMBER_OF_CPUS; cpu++) {
+    cluster.fork();
+  }
 } else {
   console.log("Worker is running...");
   app.listen(3000);
