@@ -1,4 +1,5 @@
 import express from "express";
+import cluster from "node:cluster";
 
 const app = express();
 
@@ -8,12 +9,19 @@ function wait(duration) {
 }
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send(`Hello: ${process.pid}`);
 });
 
 app.get("/wait", (req, res) => {
-  wait(5000);
-  res.send("Okay");
+  wait(8000);
+  res.send(`Okay: ${process.pid}`);
 });
 
-app.listen(3000);
+if (cluster.isPrimary) {
+  console.log("Master is running...");
+  cluster.fork();
+  cluster.fork();
+} else {
+  console.log("Worker is running...");
+  app.listen(3000);
+}
