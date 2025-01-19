@@ -5,7 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "nodemon server/index.js",
-        "format": "prettier . --write"
+        "format": "prettier . --write",
+        "prepare": "husky"
     },
     "keywords": [],
     "author": "",
@@ -16,6 +17,8 @@
         "graphql": "^16.10.0"
     },
     "devDependencies": {
+        "husky": "^9.1.7",
+        "lint-staged": "^15.4.1",
         "nodemon": "^3.1.9",
         "prettier": "^3.4.2"
     }
