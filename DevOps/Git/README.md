@@ -56,5 +56,3 @@
 **2. Post Merge**
 
 - `git merge <branch_name>`
-
-#### Handling Merge Conflicts
