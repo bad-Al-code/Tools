@@ -1,20 +1,22 @@
 {
-    "name": "node",
+    "name": "graphql",
     "version": "1.0.0",
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "nodemon server/index.js",
+        "format": "prettier . --write"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "express": "^4.21.2",
-        "pm2": "^5.4.3"
+        "@apollo/server": "^4.11.3",
+        "graphql": "^16.10.0"
     },
     "devDependencies": {
+        "nodemon": "^3.1.9",
         "prettier": "^3.4.2"
     }
 }
