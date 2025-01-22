@@ -1,13 +1,28 @@
 import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
+import passport from 'passport';
+import { Strategy } from 'passport-google-oauth20';
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:https';
 import fs from 'node:fs';
 
-const PORT = 9000;
+const PORT = process.env.PORT;
+
+const AUTH_OPTIONS = {
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: '/auth/google/callback',
+};
+
+function veriifyCallback(accessToken, refreshToken, profile, done) {
+    console.log('Google profile', profile);
+    done(null, profile);
+}
+
+passport.use(new Strategy(AUTH_OPTIONS, veriifyCallback));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +30,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(helmet());
+app.use(passport.initialize());
 
 function checkLoggedIn(req, res, next) {
     // TODO:
@@ -29,14 +45,33 @@ function checkLoggedIn(req, res, next) {
     next();
 }
 
-app.get('/auth/google', (req, res) => {});
+app.get(
+    '/auth/google',
+    passport.authenticate('google', {
+        scope: ['email', 'profile'],
+    }),
+);
 
-app.get('/auth/google/callback', (req, res) => {});
+app.get(
+    '/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/failure',
+        successRedirect: '/',
+        session: false,
+    }),
+    (req, res) => {
+        console.log('Google Called');
+    },
+);
 
 app.get('/auth/logout', (req, res) => {});
 
 app.get('/secret', checkLoggedIn, (req, res) => {
     res.send('SECRET: 021983');
+});
+
+app.get('/failure', (req, res) => {
+    res.json({ error: 'Failed to log in!' });
 });
 
 app.get('/', (req, res) => {
