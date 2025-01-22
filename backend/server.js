@@ -13,8 +13,8 @@ import fs from 'node:fs';
 const PORT = process.env.PORT;
 
 const AUTH_OPTIONS = {
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: '/auth/google/callback',
 };
 
