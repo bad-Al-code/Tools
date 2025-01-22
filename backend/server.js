@@ -1,11 +1,11 @@
-import express from "express";
-import helmet from "helmet";
+import 'dotenv/config';
+import express from 'express';
+import helmet from 'helmet';
 
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { createServer } from "node:https";
-import fs from "node:fs";
-import { error } from "node:console";
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createServer } from 'node:https';
+import fs from 'node:fs';
 
 const PORT = 9000;
 
@@ -17,30 +17,30 @@ const app = express();
 app.use(helmet());
 
 function checkLoggedIn(req, res, next) {
-  // TODO:
-  const isLoggedIn = true;
+    // TODO:
+    const isLoggedIn = true;
 
-  if (!isLoggedIn) {
-    return res.status(401).json({
-      error: "Log In",
-    });
-  }
+    if (!isLoggedIn) {
+        return res.status(401).json({
+            error: 'Log In',
+        });
+    }
 
-  next();
+    next();
 }
 
-app.get("/auth/google", (req, res) => {});
+app.get('/auth/google', (req, res) => {});
 
-app.get("/auth/google/callback", (req, res) => {});
+app.get('/auth/google/callback', (req, res) => {});
 
-app.get("/auth/logout", (req, res) => {});
+app.get('/auth/logout', (req, res) => {});
 
-app.get("/secret", checkLoggedIn, (req, res) => {
-  res.send("SECRET: 021983");
+app.get('/secret', checkLoggedIn, (req, res) => {
+    res.send('SECRET: 021983');
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 /**
@@ -50,10 +50,10 @@ app.get("/", (req, res) => {
   -keyout key.pem -out cert.pem
  */
 const options = {
-  key: fs.readFileSync(path.join(__dirname, "key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "cert.pem")),
+    key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert.pem')),
 };
 
 createServer(options, app).listen(PORT, () => {
-  console.log(`Server is running on https://localhost:${PORT}`);
+    console.log(`Server is running on https://localhost:${PORT}`);
 });
