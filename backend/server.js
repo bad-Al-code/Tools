@@ -25,6 +25,16 @@ function veriifyCallback(accessToken, refreshToken, profile, done) {
 
 passport.use(new Strategy(AUTH_OPTIONS, veriifyCallback));
 
+/** Save the sesstion to the cookie */
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+/** Read the session from cookie */
+passport.deserializeUser((obj, done) => {
+    done(null, obj);
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -36,9 +46,11 @@ app.use(
         name: 'session',
         maxAge: 24 * 60 * 60 * 1000,
         keys: [process.env.COOKIE_KEY1, process.env.COOKIE_KEY2],
+        secure: true,
     }),
 );
 app.use(passport.initialize());
+app.use(passport.session());
 
 function checkLoggedIn(req, res, next) {
     // TODO:
@@ -65,11 +77,7 @@ app.get(
     passport.authenticate('google', {
         failureRedirect: '/failure',
         successRedirect: '/',
-        session: false,
     }),
-    (req, res) => {
-        console.log('Google Called');
-    },
 );
 
 app.get('/auth/logout', (req, res) => {});
