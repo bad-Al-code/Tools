@@ -3,6 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 import passport from 'passport';
 import { Strategy } from 'passport-google-oauth20';
+import cookieSession from 'cookie-session';
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,6 +31,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(helmet());
+app.use(
+    cookieSession({
+        name: 'session',
+        maxAge: 24 * 60 * 60 * 1000,
+        keys: [process.env.COOKIE_KEY1, process.env.COOKIE_KEY2],
+    }),
+);
 app.use(passport.initialize());
 
 function checkLoggedIn(req, res, next) {
