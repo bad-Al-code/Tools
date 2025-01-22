@@ -1,4 +1,6 @@
 import express from "express";
+import helmet from "helmet";
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "node:https";
@@ -10,6 +12,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+app.use(helmet());
 
 app.get("/secret", (req, res) => {
   res.send("SECRET: 021983");
