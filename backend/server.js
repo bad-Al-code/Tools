@@ -3,7 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 import passport from 'passport';
 import { Strategy } from 'passport-google-oauth20';
-import cookieSession from 'cookie-session';
+import session from 'express-session';
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,21 +18,21 @@ const AUTH_OPTIONS = {
     callbackURL: '/auth/google/callback',
 };
 
-function veriifyCallback(accessToken, refreshToken, profile, done) {
+function verifyCallback(accessToken, refreshToken, profile, done) {
     console.log('Google profile', profile);
     done(null, profile);
 }
 
-passport.use(new Strategy(AUTH_OPTIONS, veriifyCallback));
+passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 
-/** Save the sesstion to the cookie */
+/** Save the session to the cookie */
 passport.serializeUser((user, done) => {
     done(null, user);
 });
 
 /** Read the session from cookie */
-passport.deserializeUser((obj, done) => {
-    done(null, obj);
+passport.deserializeUser((user, done) => {
+    done(null, user);
 });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,20 +41,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(helmet());
+
 app.use(
-    cookieSession({
-        name: 'session',
-        maxAge: 24 * 60 * 60 * 1000,
-        keys: [process.env.COOKIE_KEY1, process.env.COOKIE_KEY2],
-        secure: true,
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 24 * 60 * 60 * 1000,
+            secure: true,
+        },
     }),
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 function checkLoggedIn(req, res, next) {
-    // TODO:
-    const isLoggedIn = true;
+    const isLoggedIn = req.isAuthenticated();
 
     if (!isLoggedIn) {
         return res.status(401).json({
@@ -80,10 +84,17 @@ app.get(
     }),
 );
 
-app.get('/auth/logout', (req, res) => {});
+app.get('/auth/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return res.json({ error: 'Logout failed' });
+        }
+        return res.redirect('/');
+    });
+});
 
 app.get('/secret', checkLoggedIn, (req, res) => {
-    res.send('SECRET: 021983');
+    res.send(`SECRET: 021983`);
 });
 
 app.get('/failure', (req, res) => {
@@ -95,7 +106,7 @@ app.get('/', (req, res) => {
 });
 
 /**
- * Genereate  the certificate and key {COPIED FROM NODE HTTPS DOCS}
+ * Generate the certificate and key {COPIED FROM NODE HTTPS DOCS}
  *
  * openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \
   -keyout key.pem -out cert.pem
