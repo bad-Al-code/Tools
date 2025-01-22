@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "node:https";
 import fs from "node:fs";
+import { error } from "node:console";
 
 const PORT = 9000;
 
@@ -15,7 +16,26 @@ const app = express();
 
 app.use(helmet());
 
-app.get("/secret", (req, res) => {
+function checkLoggedIn(req, res, next) {
+  // TODO:
+  const isLoggedIn = true;
+
+  if (!isLoggedIn) {
+    return res.status(401).json({
+      error: "Log In",
+    });
+  }
+
+  next();
+}
+
+app.get("/auth/google", (req, res) => {});
+
+app.get("/auth/google/callback", (req, res) => {});
+
+app.get("/auth/logout", (req, res) => {});
+
+app.get("/secret", checkLoggedIn, (req, res) => {
   res.send("SECRET: 021983");
 });
 
@@ -27,7 +47,7 @@ app.get("/", (req, res) => {
  * Genereate  the certificate and key {COPIED FROM NODE HTTPS DOCS}
  *
  * openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \
-  -keyout private-key.pem -out certificate.pem
+  -keyout key.pem -out cert.pem
  */
 const options = {
   key: fs.readFileSync(path.join(__dirname, "key.pem")),
