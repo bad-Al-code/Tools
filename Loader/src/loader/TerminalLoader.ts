@@ -49,19 +49,18 @@ class TerminalLoader {
         this.timer = null;
     }
 
-    private clearLine(): void {
-        stdout.clearLine(0);
-        stdout.cursorTo(0);
-    }
-
-    render(): void {
+    private render(): void {
         const frame = this.frames[this.currentFrameIndex];
-        stdout.clearLine(0);
-        stdout.cursorTo(0);
-        stdout.write(frame);
+        this.clearLine();
+        stdout.write(`${this.text} ${frame}`);
 
         this.currentFrameIndex =
             (this.currentFrameIndex + 1) % this.frames.length;
+    }
+
+    private clearLine(): void {
+        stdout.clearLine(0);
+        stdout.cursorTo(0);
     }
 }
 
