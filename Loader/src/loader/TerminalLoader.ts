@@ -1,12 +1,23 @@
 import { stdout } from 'node:process';
 
+type LoaderOptions = {
+    frames?: string[];
+    interval?: number;
+    text?: string;
+};
+
 class TerminalLoader {
     private frames: string[];
     private currentFrameIndex: number;
+    private timer: NodeJS.Timeout | null = null;
+    private text: string;
+    private interval: number;
 
-    constructor() {
+    constructor(options: LoaderOptions = {}) {
         this.frames = ['⠎', '⠓', '⠒', '⠊', '⠉', '⠁'];
         this.currentFrameIndex = 0;
+        this.text = options.text || 'Loading';
+        this.interval = options.interval || 100;
     }
 
     start(interval: number = 100): NodeJS.Timeout {
