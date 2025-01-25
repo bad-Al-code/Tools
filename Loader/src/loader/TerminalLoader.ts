@@ -17,6 +17,17 @@ class TerminalLoader {
         return renderInterval;
     }
 
+    stop(timer: NodeJS.Timeout, finalMessage: string = 'Complete'): void {
+        clearInterval(timer);
+        this.clearLine();
+        stdout.write(finalMessage + '\n');
+    }
+
+    private clearLine(): void {
+        stdout.clearLine(0);
+        stdout.cursorTo(0);
+    }
+
     render(): void {
         const frame = this.frames[this.currentFrameIndex];
         stdout.clearLine(0);
