@@ -20,18 +20,33 @@ class TerminalLoader {
         this.interval = options.interval || 100;
     }
 
-    start(interval: number = 100): NodeJS.Timeout {
-        const renderInterval = setInterval(() => {
-            this.render();
-        }, interval);
+    start(): void {
+        if (this.timer) {
+            console.warn('Loader is already running');
+            return;
+        }
 
-        return renderInterval;
+        this.timer = setInterval(() => {
+            this.render();
+        }, this.interval);
     }
 
-    stop(timer: NodeJS.Timeout, finalMessage: string = 'Complete'): void {
-        clearInterval(timer);
+    stop(status: 'success' | 'error' = 'success'): void {
+        if (!this.timer) {
+            console.warn('Loader is not running');
+            return;
+        }
+
+        clearInterval(this.timer);
         this.clearLine();
-        stdout.write(finalMessage + '\n');
+
+        const statusMessage =
+            status === 'success'
+                ? `✓ ${this.text} Complete`
+                : `✗ ${this.text} Failed`;
+
+        stdout.write(statusMessage + '\n');
+        this.timer = null;
     }
 
     private clearLine(): void {
