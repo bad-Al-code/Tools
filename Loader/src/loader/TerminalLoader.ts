@@ -14,7 +14,7 @@ class TerminalLoader {
     private interval: number;
 
     constructor(options: LoaderOptions = {}) {
-        this.frames = ['⠎', '⠓', '⠒', '⠊', '⠉', '⠁'];
+        this.frames = ['⠎', '⠓', '⠒', '⠊', '⠉', '⠁', ''];
         this.currentFrameIndex = 0;
         this.text = options.text || 'Loading';
         this.interval = options.interval || 100;
