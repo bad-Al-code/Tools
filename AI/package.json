@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@langchain/core": "^0.3.37",
+        "@langchain/google-genai": "^0.1.8",
         "@langchain/openai": "^0.4.2",
         "chalk": "^5.4.1",
         "dotenv": "^16.4.7",
