@@ -7,7 +7,7 @@ import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'
 import { CharacterTextSplitter } from '@langchain/textsplitters'
 import { Chroma } from '@langchain/community/vectorstores/chroma'
 
-const geminModel = new ChatGoogleGenerativeAI({
+const geminiModel = new ChatGoogleGenerativeAI({
     apiKey: process.env.GEMINI_API_KEY,
 })
 
