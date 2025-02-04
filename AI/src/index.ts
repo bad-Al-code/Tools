@@ -2,14 +2,9 @@ import 'dotenv/config'
 
 import chalk from 'chalk'
 import { TextLoader } from 'langchain/document_loaders/fs/text'
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'
 import { CharacterTextSplitter } from '@langchain/textsplitters'
 import { Chroma } from '@langchain/community/vectorstores/chroma'
-
-const geminiModel = new ChatGoogleGenerativeAI({
-    apiKey: process.env.GEMINI_API_KEY,
-})
 
 const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GEMINI_API_KEY,
@@ -28,7 +23,7 @@ const loadDocs = async () => {
     const docs = await textSplitter.splitDocuments(rawDocuments)
 
     const db = await Chroma.fromDocuments(docs, embeddings, {
-        collectionName: 'facts-collection',
+        collectionName: 'emb',
     })
 
     const results = await db.similaritySearch(
@@ -37,7 +32,7 @@ const loadDocs = async () => {
 
     for (let result of results) {
         console.log(chalk.cyan('-').repeat(81))
-        // console.log(result[1])
+        // console.log(result[1]) // Search Score
         console.log(result.pageContent)
     }
 }
