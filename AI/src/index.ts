@@ -26,9 +26,7 @@ const loadDocs = async () => {
         collectionName: 'emb',
     })
 
-    const results = await db.similaritySearch(
-        'What is an intersting fact about the english lanugage?',
-    )
+    const results = await db.similaritySearch('Longest word of english')
 
     for (let result of results) {
         console.log(chalk.cyan('-').repeat(81))

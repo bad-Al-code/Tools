@@ -20,11 +20,9 @@ const embeddings = new GoogleGenerativeAIEmbeddings({
 const db = new Chroma(embeddings, {
     collectionName: 'emb',
 })
-const questionAnsweringPrompt = ChatPromptTemplate.fromMessages([
-    [
-        'system',
-        'You are an expert in linguistics.. Use the following pieces of context to answer the question at the end.\n\n{context}',
-    ],
+
+const prompt = ChatPromptTemplate.fromMessages([
+    ['system', '{context}'],
     ['human', '{input}'],
 ])
 
@@ -33,14 +31,15 @@ const retriever = db.asRetriever()
 ;(async () => {
     const combineDocsChain = await createStuffDocumentsChain({
         llm,
-        prompt: questionAnsweringPrompt,
+        prompt,
     })
 
     const chain = await createRetrievalChain({ retriever, combineDocsChain })
 
     const result = await chain.invoke({
-        input: 'What is an interestinfact about the enish lanaguage',
+        input: 'Longest word ',
     })
 
     console.log(result)
+    console.log(result.answer)
 })()
