@@ -26,12 +26,14 @@ const loadDocs = async () => {
         collectionName: 'emb',
     })
 
-    const results = await db.similaritySearch('Longest word of english')
+    const results = await db.similaritySearchWithScore(
+        'Longest word of english',
+    )
 
     for (let result of results) {
         console.log(chalk.cyan('-').repeat(81))
-        // console.log(result[1]) // Search Score
-        console.log(result.pageContent)
+        console.log(result[1]) // Search Score
+        console.log(result[0].pageContent)
     }
 }
 
