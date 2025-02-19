@@ -1,3 +1,4 @@
+const videoEl = document.querySelector('#my-video');
 let stream = null;
 const constraints = {
     audio: true,
@@ -13,6 +14,25 @@ const getMicAndCamera = async () => {
     }
 };
 
+const showMyFeed = async () => {
+    videoEl.srcObject = stream;
+    const tracks = stream.getTracks();
+    console.log(tracks);
+};
+
+const stopMyFeed = async () => {
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => {
+        track.stop();
+    });
+};
+
 document
     .querySelector('#share')
     .addEventListener('click', (e) => getMicAndCamera(e));
+document
+    .querySelector('#show-video')
+    .addEventListener('click', (e) => showMyFeed());
+document
+    .querySelector('#stop-video')
+    .addEventListener('click', (e) => stopMyFeed());
