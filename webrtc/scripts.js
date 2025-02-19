@@ -9,8 +9,20 @@ const getMicAndCamera = async () => {
     try {
         stream = await navigator.mediaDevices.getUserMedia(constraints);
         console.log(stream);
-    } catch (error) {
+
+        changeButtons([
+            'green',
+            'blue',
+            'blue',
+            'grey',
+            'grey',
+            'grey',
+            'grey',
+            'grey',
+        ]);
+    } catch (err) {
         console.log('User decined acces to constraints');
+        console.log(err);
     }
 };
 
@@ -18,6 +30,17 @@ const showMyFeed = async () => {
     videoEl.srcObject = stream;
     const tracks = stream.getTracks();
     console.log(tracks);
+
+    changeButtons([
+        'green',
+        'green',
+        'blue',
+        'blue',
+        'blue',
+        'grey',
+        'grey',
+        'blue',
+    ]);
 };
 
 const stopMyFeed = async () => {
@@ -25,6 +48,17 @@ const stopMyFeed = async () => {
     tracks.forEach((track) => {
         track.stop();
     });
+
+    changeButtons([
+        'blue',
+        'grey',
+        'grey',
+        'grey',
+        'grey',
+        'grey',
+        'grey',
+        'grey',
+    ]);
 };
 
 document
