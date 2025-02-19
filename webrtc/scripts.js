@@ -1,5 +1,6 @@
 const videoEl = document.querySelector('#my-video');
 let stream = null;
+let mediaStream = null;
 const constraints = {
     audio: true,
     video: true,
@@ -90,3 +91,6 @@ document
 document
     .querySelector('#play-record')
     .addEventListener('click', (e) => playRecording(e));
+document
+    .querySelector('#share-screen')
+    .addEventListener('click', (e) => shareScreen(e));
