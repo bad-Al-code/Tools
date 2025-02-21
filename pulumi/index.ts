@@ -1,15 +1,14 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
+import * as k8s from "@pulumi/kubernetes";
 
-// Create an AWS resource (S3 Bucket)
-const bucket = new aws.s3.BucketV2("my-bucket");
-
-// Create an S3 Bucket object
-const bucketObject = new aws.s3.BucketObject("index.html", {
-  bucket: bucket.id,
-  source: new pulumi.asset.FileAsset("./index.html"),
+const appLabels = { app: "nginx" };
+const deployment = new k8s.apps.v1.Deployment("nginx", {
+  spec: {
+    selector: { matchLabels: appLabels },
+    replicas: 1,
+    template: {
+      metadata: { labels: appLabels },
+      spec: { containers: [{ name: "nginx", image: "alpine3.21-perl" }] },
+    },
+  },
 });
-
-// Export the name of the bucket
-export const bucketName = bucket.id;
+export const name = deployment.metadata.name;
