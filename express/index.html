@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title></title>
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        Html file
+        <script>
+            const result = fetch('http://localhost:42069', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: 'asdsa' }),
+            });
+            const response = result.json();
+            console.log(response.data);
+        </script>
+    </body>
+</html>
