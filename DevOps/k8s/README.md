@@ -35,3 +35,14 @@
 
 > A Pod is a collection of containers. However, that does not mean that multi-container Pods are common. They are rare. Most Pods you’ll create will be single container units.
 > Do not create Pods by themselves. Let one of the controllers create Pods for you.
+
+### ReplicaSets
+
+- its' make sure that a specified number of replicates of a pod match the pods' actual state
+  (almost) all the time.
+  > ReplicaSet’s primary function is to ensure that the specified number of replicas of service are (almost) always running.
+
+```yaml
+spec:
+  replicas: 2
+```
