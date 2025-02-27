@@ -65,6 +65,27 @@ const resolvers = {
             });
         },
     },
+
+    Mutation: {
+        deleteGame(_, args) {
+            db.games = db.games.filter((game) => {
+                return game.id !== args.id;
+            });
+
+            return db.games;
+        },
+
+        addGame(_, args) {
+            let game = {
+                ...args.game,
+                id: crypto.randomUUID(),
+            };
+
+            db.games.push(game);
+
+            return game;
+        },
+    },
 };
 
 const server = new ApolloServer({
@@ -76,4 +97,4 @@ const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
 });
 
-console.log('Server running at: ', 4000);
+console.log('Server running at: ', url);
