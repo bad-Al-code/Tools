@@ -5,6 +5,7 @@ import { buildSchema } from 'graphql';
 const schema = buildSchema(`
    type Query {
       hello: String
+
    }
 `);
 
@@ -21,4 +22,4 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server);
 
-console.log(`🚀 Server ready at ${url}`);
+console.log(`Server ready at ${url}`);
