@@ -13,8 +13,15 @@ const resolvers = {
         reviews() {
             return db.reviews;
         },
+
         authors() {
             return db.authors;
+        },
+
+        review(_, args) {
+            return db.reviews.find((review) => {
+                review.id === args.id;
+            });
         },
     },
 };
