@@ -20,7 +20,7 @@ const resolvers = {
 
         review(_, args) {
             return db.reviews.find((review) => {
-                review.id === args.id;
+                return review.id === args.id;
             });
         },
     },
