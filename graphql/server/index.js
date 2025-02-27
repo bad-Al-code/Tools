@@ -1,25 +1,14 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { buildSchema } from 'graphql';
 
-const schema = buildSchema(`
-   type Query {
-      hello: String
-
-   }
-`);
-
-const resolvers = {
-    Query: {
-        hello: () => 'Hello World!',
-    },
-};
+import { typeDefs } from './schema.js';
 
 const server = new ApolloServer({
-    typeDefs: schema,
-    resolvers,
+    typeDefs,
 });
 
-const { url } = await startStandaloneServer(server);
+const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+});
 
-console.log(`Server ready at ${url}`);
+console.log('Server running at: ', 4000);
