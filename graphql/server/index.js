@@ -23,6 +23,12 @@ const resolvers = {
                 return review.id === args.id;
             });
         },
+
+        game(_, args) {
+            return db.games.find((game) => {
+                return game.id === args.id;
+            });
+        },
     },
 };
 
