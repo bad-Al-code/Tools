@@ -46,3 +46,47 @@
 spec:
   replicas: 2
 ```
+
+### Deployments
+
+- For getting zero downtime.
+- Kubernetes deployments provides us with the tools that can hemp use avoid such failures by
+  allowing us to update our application without downtime.
+
+  > Pods must bot be created directly, but through _ReplicaSets_ which, similarly, must nit
+  > be created directly, but through _Deployments_. They are the objects taht allows us not to
+  > creates the ReplicaSets and Pods, but that caan be updated without producing any downtime
+
+### Volumes
+
+- preserve the state across container crashes.
+
+### ConfigMaps
+
+- allows to _inject_ configurations into containers.
+
+```bash
+kubectl create configmap my-config --from-file=<filename>
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      command: ["sh", "-c", 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level.conf
+```

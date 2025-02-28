@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine-env
+spec:
+  containers:
+    - name: alpine
+      image: alpine
+      command: ["sleep"]
+      args: ["100000"]
+      envFrom:
+        - configMapRef:
+            name: my-config
+      env:
+        - name: idk
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: idk
+        - name: tbh
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: tbh
+      resources:
+        limits:
+          cpu: 200m
+          memory: 500Mi
+        requests:
+          cpu: 100m
+          memory: 200Mi

@@ -1,17 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-depl
+  name: mongo-db
 spec:
-  replicas: 2
   selector:
-    matchLabels:
-      app: node
-  template:
-    metadata:
-      labels:
-        app: node
-    spec:
-      containers:
-        - name: node
-          image: node:18.20-alpine
+    matchLabels: type
