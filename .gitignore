@@ -2,3 +2,6 @@ webrtc/signalingPeerConnection/ca.crt
 webrtc/signalingPeerConnection/ca.key
 webrtc/signalingPeerConnection/cert.crt
 webrtc/signalingPeerConnection/cert.key
+DevOps/k8s/keys/badal.crt
+DevOps/k8s/keys
+css/assets
