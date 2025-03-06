@@ -90,3 +90,13 @@ spec:
           - key: log_level
             path: log_level.conf
 ```
+
+### Secrets
+
+- small amount of sensible data
+
+```bash
+kubectl get secrets # get all secrets
+kubectl create secret generic my-secret --from-literal=key=value \
+--from-literal=anotherKey=anotherValue
+```
