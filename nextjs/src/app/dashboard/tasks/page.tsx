@@ -42,7 +42,7 @@ const Tasks = () => {
                                 borderColor:
                                     task.status === 'Completed'
                                         ? 'green'
-                                        : task.status === 'In Prograess'
+                                        : task.status === 'In Progress'
                                           ? 'yellow'
                                           : 'red',
                             }}
