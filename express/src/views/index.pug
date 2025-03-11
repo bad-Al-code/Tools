@@ -2,6 +2,18 @@ doctype html
 html(lang="en")
   head
     title My Dashboard
+    link(rel="stylesheet", href="/style.css")
   body
-    h1 Welcome to the Dashboard!
-    p Hello
+    h1 Dashboard Data
+    table
+      thead
+        tr
+          th ID
+          th Name
+          th Value
+      tbody
+        each item in data
+          tr
+            td= item.id
+            td= item.name
+            td= item.value
