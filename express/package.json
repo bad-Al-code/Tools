@@ -13,17 +13,26 @@
     "description": "",
     "devDependencies": {
         "@types/express": "^5.0.0",
+        "@types/express-flash": "^0.0.5",
+        "@types/express-session": "^1.18.1",
         "@types/node": "^22.13.10",
+        "@types/passport": "^1.0.17",
+        "@types/passport-local": "^1.0.38",
         "nodemon": "^3.1.9",
         "prettier": "^3.5.1",
         "ts-node": "^10.9.2",
         "typescript": "^5.8.2"
     },
     "dependencies": {
+        "bcryptjs": "^3.0.2",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
+        "express-flash": "^0.0.2",
+        "express-session": "^1.18.1",
         "helmet": "^8.0.0",
         "mysql2": "^3.13.0",
+        "passport": "^0.7.0",
+        "passport-local": "^1.0.0",
         "pug": "^3.0.3"
     }
 }

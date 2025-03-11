@@ -3,6 +3,10 @@ extends layout.pug
 block content
   h1 Login
   p Please login
+
+  if messages && messages.error
+    p.error-message= messages.error
+
   form(action='/login' method='POST')
     label(for='email') Email
     input(type='email' id='email' name='email' required)
