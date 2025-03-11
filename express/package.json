@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "scripts": {
         "format": "prettier . --write",
-        "start": "nodemon src/index.ts"
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "nodemon nodemon.json"
     },
     "keywords": [],
     "author": "",
@@ -14,6 +16,7 @@
         "@types/node": "^22.13.10",
         "nodemon": "^3.1.9",
         "prettier": "^3.5.1",
+        "ts-node": "^10.9.2",
         "typescript": "^5.8.2"
     },
     "dependencies": {
