@@ -25,6 +25,14 @@ app.get('/', async (req: Request, res: Response) => {
     }
 });
 
+app.get('/about', (req: Request, res: Response) => {
+    res.render('about');
+});
+
+app.get('/contact', (req: Request, res: Response) => {
+    res.render('contact');
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
